@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script>
+        var uri = 'api/sendemail';
+
+        $(document).ready(function () {
+
+            //get
+            $("#getAllEmails").click(function() {
+                event.preventDefault();
+                $.get(uri,
+                        function(data) {
+                            console.log("api response data:");
+                            console.log(data);
+                        })
+                    .done(function(data) {
+                        var list = $("#emailsList").append('<ul></ul>').find('ul');
+                        data.forEach(function(el) {
+                            list.append('<li>' +
+                                'User GUID: {' +
+                                el.UserGuid +
+                                '}' +
+                                'From:{' +
+                                el.SendFrom +
+                                '} To: {' +
+                                el.SendTo +
+                                '} Message:{' +
+                                el.Message +
+                                '}' +
+                                '</li>');
+                        });
+                    }).fail(function() {
+                        alert("something went wrong...");
+                    });
+            });
+
+            //post
+            $("#btnSend").click(function() {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/sendmessage/",
+                    data: {
+                        SendFrom: $("#SendFrom").val(),
+                        SendTo: $("#SendTo").val(),
+                        Subject: $("#Subject").val(),
+                        TextBody: $("#TextBody").val(),
+                        UserGuid: $("#UserGuid").val()
+                    },
+                    success: function(result) {
+                        //alert("[in borat voice] great success! ");
+                        console.log(result);
+                    },
+                    error: function(result) {
+                        alert("error");
+                        console.log(result);
+                    }
+
+                });
+            });
+
+        });
+
+
+    </script>
+    <style type="text/css">
+        td .emailField { width: 300px; }
+
+        td.label {
+            width: auto;
+            vertical-align: top;
+        }
+        td .submitButtonWrapper {
+            float: right;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<h3>send new email</h3>
+<form id="postEmail">
+    <table id="sendEmail">
+        <tr>
+            <td class="label">From:</td>
+            <td>
+                <input class="emailField" type="text" id="SendFrom" [required] value="bojan.zdravkovic27@exabyteweb.com" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">To:</td>
+            <td>
+                <input class="emailField" type="text" id="SendTo" [required] value="jane@abc.com" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Subject:</td>
+            <td>
+                <input class="emailField" type="text" id="Subject" [required] value="hello jane"  />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Message:</td>
+            <td>
+                <textarea class="emailField" id="TextBody" [required] rows="7">Hello Jane, nice to meet you. Hope you have a good day. Best regards, John</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">User guid:</td>
+            <td>
+                <input class="emailField" type="text" id="UserGuid" [required] value="96e19fab-b138-4985-9139-97ffe888b25d" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="submitButtonWrapper">
+                    <input type="submit" value="send" id="btnSend"/>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<hr/>
+
+<a id="getAllEmails" href="index.html">Get all email</a> <br/>
+<div id="emailsList"></div>
+</body>
+
+
+</html>
