@@ -17,6 +17,7 @@ using PostmarkWebApi.Models;
  * AUTHENTICATION
  * 
  * question - plan text or html images? enable html messages maybe
+ * enable attachments
  * 
  * history status tracking
  * 
@@ -28,11 +29,11 @@ using PostmarkWebApi.Models;
 
 namespace PostmarkWebApi.Controllers
 {
-    public class SendMessageController : ApiController
+    public class OutboundController : ApiController
     {
         private readonly IMailboxManager _mailBoxManager;
 
-        public SendMessageController()
+        public OutboundController()
         {
             IMailboxRepository mailBoxRepository = new MailboxRepository();
             IPostmarkClientFactory clientFactory = new PostmarkClientFactory();
@@ -41,9 +42,9 @@ namespace PostmarkWebApi.Controllers
             _mailBoxManager =new MailboxManager(mailBoxRepository,clientFactory, configurationProvider);
         }
         
-        public HttpResponseMessage Post([FromBody] SendMessageRequest messageRequest)
+        public HttpResponseMessage Post([FromBody] OutboundMessageRequest messageRequest)
         {
-            var result = _mailBoxManager.ProcessSendMessage(messageRequest);
+            var result = _mailBoxManager.ProcessOutboundMessage(messageRequest);
 
             if (result.Status.IsSuccess())
             {

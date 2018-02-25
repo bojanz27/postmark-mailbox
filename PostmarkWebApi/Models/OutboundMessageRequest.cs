@@ -1,6 +1,6 @@
 ﻿namespace PostmarkWebApi.Models
 {
-    public class SendMessageRequest
+    public class OutboundMessageRequest
     {
         public string UserGuid { get; set; }
         public string SendTo { get; set; }

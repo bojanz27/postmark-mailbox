@@ -148,6 +148,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\curl.txt" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -165,12 +166,14 @@
     <Compile Include="Configuration\IPostmarkConfigurationProvider.cs" />
     <Compile Include="Configuration\PostmarkConfiguration.cs" />
     <Compile Include="Configuration\PostmarkConfigurationProvider.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="DA\DTOs\DeliveryUpdateDto.cs" />
     <Compile Include="DA\Exceptions\RepositoryException.cs" />
     <Compile Include="DA\MailboxContext.cs" />
     <Compile Include="DA\OutboundMessage.cs" />
     <Compile Include="Communication\PostmarkClient.cs" />
     <Compile Include="Communication\PostmarkClientFactory.cs" />
-    <Compile Include="Controllers\SendMessageController.cs" />
+    <Compile Include="Controllers\OutboundController.cs" />
     <Compile Include="DA\DTOs\OutboundMessageDto.cs" />
     <Compile Include="DA\MailboxDb.cs" />
     <Compile Include="DA\MailboxRepository.cs" />
@@ -181,9 +184,11 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Mappers\AutoMapper\Configuration.cs" />
     <Compile Include="Mappers\AutoMapper\MailboxProfile.cs" />
+    <Compile Include="Models\BounceRequest.cs" />
+    <Compile Include="Models\DeliveryRequest.cs" />
     <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\SendMessageRequest.cs" />
-    <Compile Include="Models\SendMessagePostmarkResponse.cs" />
+    <Compile Include="Models\OutboundMessageRequest.cs" />
+    <Compile Include="Models\OutboundMessagePostmarkResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,9 +200,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

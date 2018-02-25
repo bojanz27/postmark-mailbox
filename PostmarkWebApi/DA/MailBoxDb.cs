@@ -39,6 +39,7 @@ namespace PostmarkWebApi.DA
                 }
 
                 entry.State = EntityState.Modified;
+                context.SaveChanges();
                 return entity;
             }
         }

@@ -2,7 +2,7 @@
 
 namespace PostmarkWebApi.Models
 {
-    internal class SendMessagePostmarkResponse
+    internal class OutboundMessagePostmarkResponse
     {
         public Guid MessageId { get; set; }
         public int? ErrorCode { get; set; }

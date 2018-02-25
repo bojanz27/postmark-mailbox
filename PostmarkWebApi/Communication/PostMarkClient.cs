@@ -20,14 +20,14 @@ namespace PostmarkWebApi.Communication
             _serverToken = serverToken;
         }
 
-        public SendMessagePostmarkResponse SendPostmarkMessage(SendMessageRequest messageRequest)
+        public OutboundMessagePostmarkResponse SendPostmarkMessage(OutboundMessageRequest messageRequest)
         {
             if (messageRequest == null)
             {
                 throw new ArgumentNullException(nameof(messageRequest));
             }
             
-            var postmarkMessage = Mapper.Map<SendMessageRequest, PostmarkMessage>(messageRequest);
+            var postmarkMessage = Mapper.Map<OutboundMessageRequest, PostmarkMessage>(messageRequest);
  
             var postmarkClient = new PostmarkDotNet.PostmarkClient(_serverToken);
 
@@ -50,7 +50,7 @@ namespace PostmarkWebApi.Communication
                 throw new CommunicationException("External service exception occured on SendPostmarkMessage.", innerException);
             }
             
-            return Mapper.Map<PostmarkResponse, SendMessagePostmarkResponse>(postmarkResponse);
+            return Mapper.Map<PostmarkResponse, OutboundMessagePostmarkResponse>(postmarkResponse);
         }
     }
 }

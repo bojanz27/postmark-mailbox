@@ -11,7 +11,7 @@ namespace PostmarkWebApi.BusinessLogic
         Fail
     }
 
-    internal class SendMessageProcessResult
+    internal class MessageProcessResult
     {
         public ProcessingStatus Status { get; set; }
         public string Message { get; set; }

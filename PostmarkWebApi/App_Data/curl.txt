@@ -1,0 +1,8 @@
+Outbound emial:
+curl "https://api.postmarkapp.com/email" -X POST -H "Accept: application/json" -H "Content-Type: application/json" -H "X-Postmark-Server-Token: 1e7e4258-d9bc-43b3-95d2-66fd9f41312c" -d "{From: 'bojan.zdravkovic27@exabyteweb.com', To: 'test@blackhole.postmarkapp.com', Subject: 'Postmark test', HtmlBody: '<html><body><strong>Hello</strong> dear Postmark user.</body></html>'}"
+
+
+Delivery webhook:
+curl "http://localhost:57352/api/delivery/" -X POST -H "Content-Type: application/json" -d "{ 'ServerID': 23, 'MessageID': '883953f4-6105-42a2-a16a-77a8eac79483', 'Recipient': 'john@example.com', 'Tag': 'welcome-email', 'DeliveredAt': '2014-08-01T13:28:10.2735393-04:00', 'Details': 'Test delivery webhook details' }"
+  
+  
