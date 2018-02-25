@@ -3,6 +3,8 @@ curl "https://api.postmarkapp.com/email" -X POST -H "Accept: application/json" -
 
 
 Delivery webhook:
-curl "http://localhost:57352/api/delivery/" -X POST -H "Content-Type: application/json" -d "{ 'ServerID': 23, 'MessageID': '883953f4-6105-42a2-a16a-77a8eac79483', 'Recipient': 'john@example.com', 'Tag': 'welcome-email', 'DeliveredAt': '2014-08-01T13:28:10.2735393-04:00', 'Details': 'Test delivery webhook details' }"
+curl "http://localhost:57352/api/delivery/" -X POST -H "Content-Type: application/json" -d "{ 'ServerID': 23, 'MessageID': 'C15FE625-564D-45F9-BB74-53DE27172C44', 'Recipient': 'john@example.com', 'Tag': 'welcome-email', 'DeliveredAt': '2014-08-01T13:28:10.2735393-04:00', 'Details': 'Test delivery webhook details' }"
   
-  
+Bounced webhook:
+curl "http://localhost:57352/api/bounce/" -X POST -H "Content-Type: application/json" -d "{ 'ID': 42, 'Type': 'HardBounce', 'TypeCode': 1, 'Name': 'Hard bounce', 'Tag': 'Test', 'MessageID': 'C15FE625-564D-45F9-BB74-53DE27172C44', 'ServerID': 23, 'Description': 'The server was unable to deliver your message (ex: unknown user, mailbox not found).', 'Details': 'Test bounce details', 'Email': 'john@example.com', 'From': 'sender@example.com', 'BouncedAt': '2014-08-01T13:28:10.2735393-04:00', 'DumpAvailable': true, 'Inactive': true, 'CanActivate': true, 'Subject': 'Test subject' }"
+

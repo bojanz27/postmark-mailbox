@@ -166,7 +166,9 @@
     <Compile Include="Configuration\IPostmarkConfigurationProvider.cs" />
     <Compile Include="Configuration\PostmarkConfiguration.cs" />
     <Compile Include="Configuration\PostmarkConfigurationProvider.cs" />
+    <Compile Include="Controllers\BounceController.cs" />
     <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="DA\DTOs\BounceUpdateDto.cs" />
     <Compile Include="DA\DTOs\DeliveryUpdateDto.cs" />
     <Compile Include="DA\Exceptions\RepositoryException.cs" />
     <Compile Include="DA\MailboxContext.cs" />

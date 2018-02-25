@@ -20,6 +20,8 @@ namespace PostmarkWebApi.Mappers.AutoMapper
             CreateMap<PostmarkResponse, OutboundMessagePostmarkResponse>();
             CreateMap<DeliveryRequest, DeliveryUpdateDto>()
                 .ForMember(m => m.PostmarkMessageId, o => o.MapFrom(s => s.MessageId));
+            CreateMap<BounceRequest, BounceUpdateDto>()
+                .ForMember(m => m.PostmarkMessageId, o => o.MapFrom(s => s.MessageId));
         }
     }
 }

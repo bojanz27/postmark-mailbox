@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace PostmarkWebApi.Models
+namespace PostmarkWebApi.DA.DTOs
 {
-    public class BounceRequest
+    public class BounceUpdateDto
     {
-        public Guid MessageId { get; set; }
+        public Guid PostmarkMessageId { get; set; }
         public DateTime? BouncedAt { get; set; }
         public string Details { get; set; }
         public string Description { get; set; }

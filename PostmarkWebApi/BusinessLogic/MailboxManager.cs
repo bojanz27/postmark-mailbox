@@ -13,6 +13,8 @@ namespace PostmarkWebApi.BusinessLogic
         MessageProcessResult ProcessOutboundMessage(OutboundMessageRequest outboundRequest);
 
         MessageProcessResult ProcessDeliveredStatusUpdate(DeliveryRequest deliveryRequest);
+
+        MessageProcessResult ProcessBouncedStatusUpdate(BounceRequest bounceRequest);
     }
     
     internal class MailboxManager : IMailboxManager
@@ -76,6 +78,29 @@ namespace PostmarkWebApi.BusinessLogic
                 result.Status = ProcessingStatus.Success;
             }
             catch 
+            {
+                // there has been an error while processing update
+                result.Status = ProcessingStatus.Fail;
+            }
+
+            return result;
+        }
+
+        public MessageProcessResult ProcessBouncedStatusUpdate(BounceRequest bounceRequest)
+        {
+            var result = new MessageProcessResult();
+
+            try
+            {
+                // update message with data received from postmark 
+                var bouncedDto = Mapper.Map<BounceRequest, BounceUpdateDto>(bounceRequest);
+
+                _mailBoxRepository.UpdateStatusBounced(bouncedDto);
+
+                // update process result status correspondingly
+                result.Status = ProcessingStatus.Success;
+            }
+            catch
             {
                 // there has been an error while processing update
                 result.Status = ProcessingStatus.Fail;

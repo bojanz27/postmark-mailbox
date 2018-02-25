@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using PostmarkWebApi.BusinessLogic;
@@ -10,11 +13,11 @@ using PostmarkWebApi.Models;
 
 namespace PostmarkWebApi.Controllers
 {
-    public class DeliveryController : ApiController
+    public class BounceController : ApiController
     {
         private readonly IMailboxManager _mailBoxManager;
 
-        public DeliveryController()
+        public BounceController()
         {
             IMailboxRepository mailBoxRepository = new MailboxRepository();
             IPostmarkClientFactory clientFactory = new PostmarkClientFactory();
@@ -23,9 +26,9 @@ namespace PostmarkWebApi.Controllers
             _mailBoxManager = new MailboxManager(mailBoxRepository, clientFactory, configurationProvider);
         }
 
-        public HttpResponseMessage Post([FromBody] DeliveryRequest deliveryRequest)
+        public HttpResponseMessage Post([FromBody] BounceRequest bounceRequest)
         {
-            var result = _mailBoxManager.ProcessDeliveredStatusUpdate(deliveryRequest);
+            var result = _mailBoxManager.ProcessBouncedStatusUpdate(bounceRequest);
 
             return Request.CreateResponse(
                 result.Status.IsSuccess()
