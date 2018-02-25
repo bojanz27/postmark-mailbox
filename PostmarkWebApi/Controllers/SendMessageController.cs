@@ -18,6 +18,9 @@ using PostmarkWebApi.Models;
  * question - plan text or html images? enable html messages maybe
  * 
  * history status tracking
+ * 
+ * Request validation!!!!!
+ * 
  */
 
 namespace PostmarkWebApi.Controllers

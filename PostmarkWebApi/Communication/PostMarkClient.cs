@@ -36,14 +36,14 @@ namespace PostmarkWebApi.Communication
             var task = Task.Run(async () =>
             {
                 postmarkResponse = await postmarkClient.SendMessageAsync(postmarkMessage);
-                Trace.WriteLine(postmarkResponse);
+                Trace.WriteLine(postmarkResponse);//todo: remove
             });
 
             try
             {
                 task.Wait();
             }
-            catch (AggregateException ae) //test exc by sending to jane@abc.com or form email not in server domain
+            catch (AggregateException ae) //test exc by sending to jane@abc.com or from email not in server domain
             {
                 //foreach (var e in ae.InnerExceptions) // check if there can be many excpetions
                 //{
