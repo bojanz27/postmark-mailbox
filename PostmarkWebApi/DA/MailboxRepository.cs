@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using PostmarkWebApi.DA.DTOs;
 using PostmarkWebApi.DA.Exceptions;
 
@@ -7,42 +6,37 @@ namespace PostmarkWebApi.DA
 {
     internal interface IMailboxRepository
     {
-        void InsertMessage(MessageDto messageDto);
-        IList<MessageDto> GetAllMessages();
+        void InsertOutboundMessage(OutboundMessageDto messageDto);
     }
 
     internal class MailboxRepository : IMailboxRepository
     {
         private readonly MailboxDb _db = new MailboxDb();
 
-        public void InsertMessage(MessageDto messageDto)
+        public void InsertOutboundMessage(OutboundMessageDto messageDto)
         {
             try
             {
-                var newMessage = new Message
+                var newMessage = new OutboundMessage
                 {
                     SendFrom = messageDto.SendFrom,
                     SendTo = messageDto.SendTo,
                     Subject = messageDto.Subject,
                     TextBody = messageDto.TextBody,
                     UserGuid = messageDto.UserGuid,
-                    DateCreated = messageDto.DateCreated ?? DateTime.Now,
-                    DateUpdated = messageDto.DateCreated ?? DateTime.Now,
-                    Status = messageDto.Status,
-                    ErrorCode = messageDto.ErrorCode
+                    StatusId = messageDto.StatusId,
+                    PostmarkMessageId = messageDto.PostmarkMessageId,
+                    PostmarkErrorCode = messageDto.PostmarkErrorCode,
+                    PostmarkStatus = messageDto.PostmarkStatus,
+                    SubmittedAt = messageDto.SubmittedAt ?? DateTime.Now
                 };
 
                 _db.Add(newMessage);
             }
             catch (Exception e)
             {
-                throw new RepositoryException("Exception occured on InsertMessage.", e);
+                throw new RepositoryException("Internal exception occured on InsertOutboundMessage.", e);
             }
-        }
-
-        public IList<MessageDto> GetAllMessages()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -11,7 +11,8 @@ using PostmarkWebApi.Models;
 
 /*
  * file LOGGER - 
- * communication logger
+ * communication logger - if for example postmark is down we should see failing emails 
+ * also log fialed emails
  * backoffice / admin portal
  * AUTHENTICATION
  * 
@@ -21,17 +22,16 @@ using PostmarkWebApi.Models;
  * 
  * Request validation!!!!!
  * 
+ * throw http exc form webapi or just wrap error/status in 200 ok response
+ * 
+ * store massages not sent to postmark? ex when postmark returns errorcode <> ok
+ * 
  */
 
 namespace PostmarkWebApi.Controllers
 {
-    public class SendMessageController : ApiController //rename to send message
+    public class SendMessageController : ApiController
     {
-        private static readonly IEnumerable<MessageModel> Emails = new List<MessageModel>()
-        {
-            new MessageModel{TextBody= "Hello there!", SendFrom="john@abc.com",SendTo = "jane@abc.com", UserGuid = "12345"},
-            new MessageModel{TextBody = "Hello back!", SendFrom = "jane@abc.com", SendTo = "john@abc.com", UserGuid = "54321"}
-        };
 
         private readonly IMailboxManager _mailBoxManager;
 
@@ -44,16 +44,12 @@ namespace PostmarkWebApi.Controllers
             _mailBoxManager =new MailboxManager(mailBoxRepository,clientFactory, configurationProvider);
         }
 
-        public IEnumerable<MessageModel> GetAllEmails()
-        {
-            return Emails;
-        }
 
-        public HttpResponseMessage Post([FromBody] SendMessageRequest messageRequest) //test exception
+        public HttpResponseMessage Post([FromBody] SendMessageRequest messageRequest)
         {
             var result = _mailBoxManager.ProcessSendMessage(messageRequest);
 
-            if (result.Status.IsSucess())
+            if (result.Status.IsSuccess())
             {
                 return Request.CreateResponse(HttpStatusCode.OK, result.Message);
             }

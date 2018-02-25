@@ -4,14 +4,14 @@ namespace PostmarkWebApi.Helpers
 {
     internal static class Extensions
     {
-        public static bool IsSucess(this ProcessingStatus status)
+        public static bool IsSuccess(this ProcessingStatus status)
         {
             return status == ProcessingStatus.Success;
         }
 
         public static bool IsFail(this ProcessingStatus status)
         {
-            return !IsSucess(status);
+            return !IsSuccess(status);
         }
     }
 }

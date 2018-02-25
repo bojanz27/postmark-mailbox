@@ -35,20 +35,23 @@ namespace PostmarkWebApi.BusinessLogic
                 var postmarkClient = _clientFactory.GetClient(_configurationProvider);
                 var response = postmarkClient.SendPostmarkMessage(messageRequest);
 
-                // insert to database
-                var newMessage = Mapper.Map<SendMessageRequest, MessageDto>(messageRequest);
-                newMessage.ErrorCode = response.ErrorCode;
-                newMessage.DateCreated = response.SubmittedAt;
-                newMessage.Status = response.Status;
-
-                _mailBoxRepository.InsertMessage(newMessage);
+                // everything went smooth - update message data received from postmark and insert to database
+                var newMessage = Mapper.Map<SendMessageRequest, OutboundMessageDto>(messageRequest);
+                newMessage.PostmarkMessageId = response.MessageId;
+                newMessage.PostmarkErrorCode = response.ErrorCode;
+                newMessage.SubmittedAt = response.SubmittedAt;
+                newMessage.PostmarkStatus = response.Status;
+                newMessage.StatusId = (byte) OutboundMessageStatus.Sent;
                 
-                // client should return response - update email in database 
+                _mailBoxRepository.InsertOutboundMessage(newMessage);
+                
+                // update process result status correspondingly
                 result.Status = ProcessingStatus.Success;
                 result.Message = response.Status;
             }
             catch (Exception e)
             {
+                // there has been an error while processing message  
                 result.Status = ProcessingStatus.Fail;
                 result.Message = $"{e.Message} {e.InnerException?.Message}";
             }

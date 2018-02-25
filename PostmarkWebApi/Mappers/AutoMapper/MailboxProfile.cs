@@ -11,14 +11,15 @@ namespace PostmarkWebApi.Mappers.AutoMapper
 
         public MailboxProfile()
         {
-            CreateMap<SendMessageRequest, MessageDto>();
-            CreateMap<MessageModel, MessageDto>();
+            CreateMap<SendMessageRequest, OutboundMessageDto>();
+            //CreateMap<MessageModel, OutboundMessageDto>();
             CreateMap<SendMessageRequest, PostmarkMessage>()
                 .ForMember(pm => pm.From, o => o.MapFrom(s => s.SendFrom))
                 .ForMember(pm => pm.To, o => o.MapFrom(s => s.SendTo))
                 .ForMember(pm => pm.Subject, o => o.MapFrom(s => s.Subject))
                 .ForMember(pm => pm.TextBody, o => o.MapFrom(s => s.TextBody));
             CreateMap<PostmarkResponse, SendMessagePostmarkResponse>();
+            //    .ForMember(m => m., o => o.MapFrom(s => s.SendFrom))
         }
     }
 }

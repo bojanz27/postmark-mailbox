@@ -7,27 +7,29 @@ GO
 USE [PostmarkMailbox]
 GO
 
-CREATE TABLE [Message] (
-	[Id] BIGINT PRIMARY KEY IDENTITY (1, 1),
-	[SendFrom] NVARCHAR(254) NOT NULL,
-	[SendTo] NVARCHAR(254) NOT NULL,
-	[Subject] NVARCHAR(254) NOT NULL, -- check this 
-	[TextBody] NVARCHAR(MAX) NOT NULL, -- chekc this
-	[Status] NVARCHAR(MAX) NULL,
-	[ErrorCode] INT NULL,
-	[DateCreated] DATETIME NOT NULL,
-	[DateUpdated] DATETIME NOT NULL,
-	[UserGuid] UNIQUEIDENTIFIER NOT NULL,
+ CREATE TABLE [OutboundMessageStatus] (
+	[Id] TINYINT PRIMARY KEY IDENTITY (1, 1),
+	[Name] VARCHAR(20) NOT NULL
  )
  GO
 
- --dont use this for now
- --CREATE TABLE [MessageStatusHistory] (
-	--[Id] BIGINT PRIMARY KEY IDENTITY (1, 1),
-	--[MessageId] BIGINT NOT NULL FOREIGN KEY REFERENCES [Message] ([Id]),
-	--[Status] NVARCHAR(MAX) NULL,
-	--[ValidFrom] DATETIME NOT NULL,
-	--[ValidTo] DATETIME NOT NULL,
- --)
- --GO
+INSERT INTO [OutboundMessageStatus] VALUES ('Sent'), ('Delivered'), ('BouncedBack')
+GO
 
+CREATE TABLE [OutboundMessage] (
+	[Id] BIGINT PRIMARY KEY IDENTITY (1, 1),
+	[SendFrom] NVARCHAR(256) NOT NULL,
+	[SendTo] NVARCHAR(256) NOT NULL,
+	[Subject] NVARCHAR(128) NOT NULL, 
+	[TextBody] NVARCHAR(MAX) NOT NULL, 
+	[UserGuid] UNIQUEIDENTIFIER NOT NULL,
+	[StatusId] TINYINT NOT NULL FOREIGN KEY REFERENCES [OutboundMessageStatus]([Id]),
+	[PostmarkMessageId] UNIQUEIDENTIFIER NOT NULL,
+	[PostmarkErrorCode] INT NULL,
+	[PostmarkStatus] NVARCHAR(MAX) NULL,
+	[PostmarkDescription] NVARCHAR(MAX) NULL,
+	[SubmittedAt] DATETIME NULL,
+	[DeliveredAt] DATETIME NULL,
+	[BouncedAt] DATETIME NULL,
+ )
+ GO

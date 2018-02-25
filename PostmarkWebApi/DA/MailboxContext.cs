@@ -9,7 +9,7 @@ namespace PostmarkWebApi.DA
         {
         }
 
-        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<OutboundMessage> Messages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

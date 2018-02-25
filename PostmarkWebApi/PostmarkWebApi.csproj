@@ -167,13 +167,14 @@
     <Compile Include="Configuration\PostmarkConfigurationProvider.cs" />
     <Compile Include="DA\Exceptions\RepositoryException.cs" />
     <Compile Include="DA\MailboxContext.cs" />
-    <Compile Include="DA\Message.cs" />
+    <Compile Include="DA\OutboundMessage.cs" />
     <Compile Include="Communication\PostmarkClient.cs" />
     <Compile Include="Communication\PostmarkClientFactory.cs" />
     <Compile Include="Controllers\SendMessageController.cs" />
-    <Compile Include="DA\DTOs\MessageDto.cs" />
+    <Compile Include="DA\DTOs\OutboundMessageDto.cs" />
     <Compile Include="DA\MailboxDb.cs" />
     <Compile Include="DA\MailboxRepository.cs" />
+    <Compile Include="DA\OutboundMessageStatus.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

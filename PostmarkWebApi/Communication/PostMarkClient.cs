@@ -36,22 +36,18 @@ namespace PostmarkWebApi.Communication
             var task = Task.Run(async () =>
             {
                 postmarkResponse = await postmarkClient.SendMessageAsync(postmarkMessage);
-                Trace.WriteLine(postmarkResponse);//todo: remove
+
+                Trace.WriteLine(postmarkResponse.Message); //todo: remove
             });
 
             try
             {
                 task.Wait();
             }
-            catch (AggregateException ae) //test exc by sending to jane@abc.com or from email not in server domain
+            catch (AggregateException ae)
             {
-                //foreach (var e in ae.InnerExceptions) // check if there can be many excpetions
-                //{
-                //    throw e;
-                //}
-
                 var innerException = ae.InnerExceptions.FirstOrDefault();
-                throw new CommunicationException("Postmark service exception.", innerException);
+                throw new CommunicationException("External service exception occured on SendPostmarkMessage.", innerException);
             }
             
             return Mapper.Map<PostmarkResponse, SendMessagePostmarkResponse>(postmarkResponse);
