@@ -4,6 +4,6 @@ namespace PostmarkWebApi.Communication
 {
     internal interface IPostmarkClient
     {
-        SendMessagePostmarkResponse SendPostmarkMessage(SendMessageRequest newMessageModel);
+        OutboundMessagePostmarkResponse SendPostmarkMessage(OutboundMessageRequest newMessageModel);
     }
 }
