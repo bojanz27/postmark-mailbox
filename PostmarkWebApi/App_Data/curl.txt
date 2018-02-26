@@ -1,10 +1,9 @@
-Outbound emial:
-curl "https://api.postmarkapp.com/email" -X POST -H "Accept: application/json" -H "Content-Type: application/json" -H "X-Postmark-Server-Token: 1e7e4258-d9bc-43b3-95d2-66fd9f41312c" -d "{From: 'bojan.zdravkovic27@exabyteweb.com', To: 'test@blackhole.postmarkapp.com', Subject: 'Postmark test', HtmlBody: '<html><body><strong>Hello</strong> dear Postmark user.</body></html>'}"
-
-
+Outbound email:
+curl "http://localhost:57352/api/outbound/" -X POST -H "Content-Type: application/json" -d "{ 'UserGuid': '96e19fab-b138-4985-9139-97ffe888b25d', 'SendFrom':'bojan.zdravkovic27@exabyteweb.com', 'SendTo':'test@blackhole.postmarkapp.com', 'Subject':'hello subject', 'TextBody':'hello from the other side' }"
+  
 Delivery webhook:
-curl "http://localhost:57352/api/delivery/" -X POST -H "Content-Type: application/json" -d "{ 'ServerID': 23, 'MessageID': 'C15FE625-564D-45F9-BB74-53DE27172C44', 'Recipient': 'john@example.com', 'Tag': 'welcome-email', 'DeliveredAt': '2014-08-01T13:28:10.2735393-04:00', 'Details': 'Test delivery webhook details' }"
+curl "http://localhost:57352/api/delivery/" -X POST -H "Content-Type: application/json" -d "{ 'ServerID': 23, 'MessageID': '2D4306D6-74DF-4B75-8903-868F4A6224A8', 'Recipient': 'john@example.com', 'Tag': 'welcome-email', 'DeliveredAt': '2014-08-01T13:28:10.2735393-04:00', 'Details': 'Test delivery webhook details' }"
   
 Bounced webhook:
-curl "http://localhost:57352/api/bounce/" -X POST -H "Content-Type: application/json" -d "{ 'ID': 42, 'Type': 'HardBounce', 'TypeCode': 1, 'Name': 'Hard bounce', 'Tag': 'Test', 'MessageID': 'C15FE625-564D-45F9-BB74-53DE27172C44', 'ServerID': 23, 'Description': 'The server was unable to deliver your message (ex: unknown user, mailbox not found).', 'Details': 'Test bounce details', 'Email': 'john@example.com', 'From': 'sender@example.com', 'BouncedAt': '2014-08-01T13:28:10.2735393-04:00', 'DumpAvailable': true, 'Inactive': true, 'CanActivate': true, 'Subject': 'Test subject' }"
+curl "http://localhost:57352/api/bounce/" -X POST -H "Content-Type: application/json" -d "{ 'ID': 42, 'Type': 'HardBounce', 'TypeCode': 1, 'Name': 'Hard bounce', 'Tag': 'Test', 'MessageID': 'B313DB7A-27E2-462C-B2E5-EE9BB8B861D1', 'ServerID': 23, 'Description': 'The server was unable to deliver your message (ex: unknown user, mailbox not found).', 'Details': 'Test bounce details', 'Email': 'john@example.com', 'From': 'sender@example.com', 'BouncedAt': '2014-08-01T13:28:10.2735393-04:00', 'DumpAvailable': true, 'Inactive': true, 'CanActivate': true, 'Subject': 'Test subject' }"
 

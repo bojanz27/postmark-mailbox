@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace PostmarkWebApi.BusinessLogic
+﻿namespace PostmarkWebApi.BusinessLogic
 {
     internal enum ProcessingStatus
     {
         Success,
-        Fail
+        Error
     }
 
     internal class MessageProcessResult

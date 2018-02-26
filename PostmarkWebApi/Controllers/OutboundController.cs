@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using PostmarkWebApi.BusinessLogic;
@@ -8,24 +7,6 @@ using PostmarkWebApi.Configuration;
 using PostmarkWebApi.DA;
 using PostmarkWebApi.Helpers;
 using PostmarkWebApi.Models;
-
-/*
- * file LOGGER - 
- * communication logger - if for example postmark is down we should see failing emails 
- * also log fialed emails
- * backoffice / admin portal
- * AUTHENTICATION
- * 
- * question - plan text or html images? enable html messages maybe
- * enable attachments
- * 
- * history status tracking
- * 
- * Request validation!!!!!
- * 
- * store massages not sent to postmark? ex when postmark returns errorcode <> ok
- * 
- */
 
 namespace PostmarkWebApi.Controllers
 {
@@ -39,19 +20,25 @@ namespace PostmarkWebApi.Controllers
             IPostmarkClientFactory clientFactory = new PostmarkClientFactory();
             IPostmarkConfigurationProvider configurationProvider = new PostmarkConfigurationProvider();
 
-            _mailBoxManager =new MailboxManager(mailBoxRepository,clientFactory, configurationProvider);
+            _mailBoxManager = new MailboxManager(mailBoxRepository, clientFactory, configurationProvider);
         }
-        
+
         public HttpResponseMessage Post([FromBody] OutboundMessageRequest messageRequest)
         {
-            var result = _mailBoxManager.ProcessOutboundMessage(messageRequest);
-
-            if (result.Status.IsSuccess())
+            // check if valid data is received
+            if (!ModelState.IsValid)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, result.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            var httpError = new HttpError(result.Message);
+            var processResult = _mailBoxManager.ProcessOutboundMessage(messageRequest);
+
+            if (processResult.Status.IsSuccess())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, processResult.Message);
+            }
+
+            var httpError = new HttpError(processResult.Message);
             return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, httpError);
         }
     }

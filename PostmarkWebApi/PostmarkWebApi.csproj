@@ -150,15 +150,13 @@
   <ItemGroup>
     <Content Include="App_Data\curl.txt" />
     <Content Include="Global.asax" />
-    <Content Include="index.html" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\postmark.sql" />
+    <Content Include="App_Data\db.sql" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessLogic\MailboxManager.cs" />
-    <Compile Include="BusinessLogic\SendMessageProcessResult.cs" />
+    <Compile Include="BusinessLogic\MessageProcessResult.cs" />
     <Compile Include="Communication\Exceptions\CommunicationException.cs" />
     <Compile Include="Communication\IPostmarkClient.cs" />
     <Compile Include="Communication\IPostmarkClientFactory.cs" />
@@ -188,7 +186,6 @@
     <Compile Include="Mappers\AutoMapper\MailboxProfile.cs" />
     <Compile Include="Models\BounceRequest.cs" />
     <Compile Include="Models\DeliveryRequest.cs" />
-    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\OutboundMessageRequest.cs" />
     <Compile Include="Models\OutboundMessagePostmarkResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

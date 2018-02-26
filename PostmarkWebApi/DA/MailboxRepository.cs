@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using PostmarkWebApi.DA.DTOs;
 using PostmarkWebApi.DA.Exceptions;
 
@@ -58,7 +57,7 @@ namespace PostmarkWebApi.DA
 
                 // update message data
                 message.StatusId = (byte) OutboundMessageStatus.Delivered;
-                message.DeliveredAt = deliveryDto.DeliveredAt;
+                message.DeliveredAt = deliveryDto.DeliveredAt ?? DateTime.Now;
                 message.PostmarkStatus = deliveryDto.Details;
 
                 _db.Update(message);
@@ -85,7 +84,7 @@ namespace PostmarkWebApi.DA
 
                 // update message data
                 message.StatusId = (byte)OutboundMessageStatus.BouncedBack;
-                message.BouncedAt = bouncedDto.BouncedAt;
+                message.BouncedAt = bouncedDto.BouncedAt ?? DateTime.Now;
                 message.PostmarkStatus = bouncedDto.Details;
                 message.PostmarkDescription = bouncedDto.Description;
 
@@ -101,10 +100,7 @@ namespace PostmarkWebApi.DA
 
         private OutboundMessage GetByPostmarkMessageGuid(Guid messageGuid)
         {
-            using (var ctx = new MailboxContext()) // move to db class
-            {
-                return ctx.Messages.SingleOrDefault(m => m.PostmarkMessageId == messageGuid);
-            }
+            return _db.GetMessageByPostmarkId(messageGuid);
         }
 
         #endregion

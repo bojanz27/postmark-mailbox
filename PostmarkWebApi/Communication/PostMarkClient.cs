@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using AutoMapper;
 using PostmarkDotNet;
 using PostmarkWebApi.Communication.Exceptions;
@@ -26,9 +23,9 @@ namespace PostmarkWebApi.Communication
             {
                 throw new ArgumentNullException(nameof(messageRequest));
             }
-            
+
             var postmarkMessage = Mapper.Map<OutboundMessageRequest, PostmarkMessage>(messageRequest);
- 
+
             var postmarkClient = new PostmarkDotNet.PostmarkClient(_serverToken);
 
             var postmarkResponse = new PostmarkResponse();
@@ -36,8 +33,6 @@ namespace PostmarkWebApi.Communication
             var task = Task.Run(async () =>
             {
                 postmarkResponse = await postmarkClient.SendMessageAsync(postmarkMessage);
-
-                Trace.WriteLine(postmarkResponse.Message); //todo: remove
             });
 
             try
@@ -47,9 +42,10 @@ namespace PostmarkWebApi.Communication
             catch (AggregateException ae)
             {
                 var innerException = ae.InnerExceptions.FirstOrDefault();
-                throw new CommunicationException("External service exception occured on SendPostmarkMessage.", innerException);
+                throw new CommunicationException("External service exception occured on SendPostmarkMessage.",
+                    innerException);
             }
-            
+
             return Mapper.Map<PostmarkResponse, OutboundMessagePostmarkResponse>(postmarkResponse);
         }
     }

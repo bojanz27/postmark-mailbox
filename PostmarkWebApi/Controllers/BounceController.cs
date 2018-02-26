@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using PostmarkWebApi.BusinessLogic;
@@ -28,10 +25,16 @@ namespace PostmarkWebApi.Controllers
 
         public HttpResponseMessage Post([FromBody] BounceRequest bounceRequest)
         {
-            var result = _mailBoxManager.ProcessBouncedStatusUpdate(bounceRequest);
+            // check if valid data is received
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var processResult = _mailBoxManager.ProcessBouncedStatusUpdate(bounceRequest);
 
             return Request.CreateResponse(
-                result.Status.IsSuccess()
+                processResult.Status.IsSuccess()
                     ? HttpStatusCode.OK
                     : HttpStatusCode.InternalServerError);
         }

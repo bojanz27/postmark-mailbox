@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace PostmarkWebApi.Models
 {
     public class DeliveryRequest
     {
+        [Required]
         public Guid MessageId { get; set; }
         public DateTime? DeliveredAt { get; set; }
         public string Details { get; set; }

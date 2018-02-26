@@ -77,7 +77,12 @@ namespace PostmarkWebApi.DA
             }
         }
 
-
-        
+        public OutboundMessage GetMessageByPostmarkId(Guid id)
+        {
+            using (var ctx = new MailboxContext())
+            {
+                return ctx.Messages.SingleOrDefault(m => m.PostmarkMessageId == id);
+            }
+        }
     }
 }

@@ -25,10 +25,16 @@ namespace PostmarkWebApi.Controllers
 
         public HttpResponseMessage Post([FromBody] DeliveryRequest deliveryRequest)
         {
-            var result = _mailBoxManager.ProcessDeliveredStatusUpdate(deliveryRequest);
+            // check if valid data is received
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var processResult = _mailBoxManager.ProcessDeliveredStatusUpdate(deliveryRequest);
 
             return Request.CreateResponse(
-                result.Status.IsSuccess()
+                processResult.Status.IsSuccess()
                     ? HttpStatusCode.OK
                     : HttpStatusCode.InternalServerError);
         }
